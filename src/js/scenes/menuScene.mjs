@@ -10,7 +10,7 @@ export class MenuScene extends Phaser.Scene
         console.log("Loading MenuScene...");
 
         // audio
-        this.load.audio('menu', '/src/assets/audio/a_rift_space.wav');
+        this.load.audio('menu', '/src/assets/audio/themes/a_rift_space.wav');
         // images
         this.load.image('space', '/src/assets/ui/space-bg.png');
         this.load.image('title', '/src/assets/ui/logo.png');
@@ -22,7 +22,7 @@ export class MenuScene extends Phaser.Scene
       
     create() {
         /* SCENE DESIGN */
-        this.add.image(400, 300, 'space').setFlipX(true);
+        this.add.image(0, 300, 'space').setFlipX(true).setOrigin(0, 0.5)
         this.add.image(600, 390, 'earth').setScale(3).setFlip(true);
         this.add.image(520, 300, 'moon').setScale(0.8).setFlip(true);
         this.add.image(440, 200, 'ice').setScale(0.5).setAlpha(0.8);
