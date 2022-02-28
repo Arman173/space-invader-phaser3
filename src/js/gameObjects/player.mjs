@@ -8,7 +8,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         super( scene, x, y, texture, 1 );
 
         scene.physics.add.existing(this);
-        scene.add.existing(this)
+        scene.add.existing(this);
 
         this.create();
     }
@@ -16,7 +16,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     create() {
         this.setScale(2);
         this.setCollideWorldBounds(true);
-        this.speed = Phaser.Math.GetSpeed(300, 1);
+        this.speed = Phaser.Math.GetSpeed(200, 1);
 
         this.scene.anims.create(PlayerConfig.animationsConfig.idle);
         this.scene.anims.create(PlayerConfig.animationsConfig.rigth);
