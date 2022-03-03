@@ -5,9 +5,8 @@ import { Projectile } from '../gameObjects/projectile.mjs';
 
 /* GLOBAL VARIABLES */
 let background, cursors, song;
-let limits;
 let player, score, lifes;
-let bullets = [], usedBullets = [], delay = 0;
+let bullets = [], delay = 0;
 let aliens = [], aliensAlive = [];
 
 
@@ -40,6 +39,7 @@ export class GameScene extends Phaser.Scene
 
     create() {
         console.log('GameScene Loaded!');
+
         /* GAME DESIGN */
         background = this.add.group([
             this.add.image(0, 300, 'space').setFlipX(true).setOrigin(0, 0.5),
@@ -58,24 +58,18 @@ export class GameScene extends Phaser.Scene
         });
 
         /* GAME OBJECTS */
+        // input
         cursors = this.input.keyboard.createCursorKeys();
-
-        limits = this.add.group([
-            this.physics.add.image(400, 50, 'square').setScale(12, 0.3),
-            this.physics.add.image(400, 550, 'square').setScale(12, 0.3)
-        ]);
-
-        player = new Player(this, 400, 525, PlayerConfig.key);
-
+        // player
+        player = new Player(this, 400, 550, PlayerConfig.key);
         // bullets
-        bullets = this.add.group();
-        for (let i = 1; i <= 10; i++) {
+        bullets = this.physics.add.group();
+        for (let i = 1; i <= 5; i++) {
             bullets.add(new Projectile(this, 50 * i + 50, 480, 'charged_beam', -100));
         }
-        // this.x = new Projectile(this, 400, 150, 'charged_beam', 100, true);
     
         song = this.sound.add('arrival');
-        // song.play();
+        song.play();
 
         /* COLLIDERS */
     }
@@ -96,19 +90,14 @@ export class GameScene extends Phaser.Scene
         /* SHOT LOGIC */
         if ( cursors.space.isDown && time > delay ) {
             this.shoot();
-            delay = time + 500;
+            delay = time + 400;
         }
     }
 
     shoot() {
-        if ( bullets.getChildren().length <= 0 ) return;
-
-        usedBullets.push(bullets.getChildren()
-                                .pop()
-                                .setPosition(player.x, player.y -15)
-                                .shoot()
-                        );
-        console.log(bullets, usedBullets);
-        console.log('shot!');
+        // buscamos si existe una bala que no se haya disparado
+        const bullet = bullets.getChildren().find(bullet => !bullet.fired);
+        if ( !bullet ) return;
+            bullet.setPosition(player.x, player.y -15).shoot();
     }
 }

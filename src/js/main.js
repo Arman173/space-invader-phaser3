@@ -10,10 +10,10 @@ const config = {
     parent: 'myGame',
     autoCenter: true,
     pixelArt: true,
-    debugger: true,
     physics: {
         default: 'arcade',
         arcade: {
+            debug: true,
             gravity: { y: 0 }
         }
     },

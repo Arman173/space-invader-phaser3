@@ -22,21 +22,20 @@ export class Projectile extends Phaser.Physics.Arcade.Sprite {
     preUpdate( time, delta ) {
         super.preUpdate( time, delta );
 
-        if ( this.fired ) {
-            this.setVelocityY(this.speed);
-            if ( this.y < -50 || this.y > 650 ) {
-                this.collided();
-            }
+        if ( this.y < 20 || this.y > 580 ) {
+            this.collided();
         }
     }
 
     shoot() {
         this.fired = true;
+        this.setVelocityY(this.speed);
         this.setActive(true);
         this.setVisible(true);
     }
 
     collided() {
+        this.fired = false;
         this.setVelocityY(0);
         this.setActive(false);
         this.setVisible(false);
