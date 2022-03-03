@@ -7,6 +7,10 @@ const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    parent: 'myGame',
+    autoCenter: true,
+    pixelArt: true,
+    debugger: true,
     physics: {
         default: 'arcade',
         arcade: {
