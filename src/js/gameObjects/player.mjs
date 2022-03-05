@@ -15,6 +15,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     create() {
         this.setScale(2);
+        this.setState('undefined');
         this.setCollideWorldBounds(true);
         this.speed = Phaser.Math.GetSpeed(200, 1);
 

@@ -14,6 +14,7 @@ export class Projectile extends Phaser.Physics.Arcade.Sprite {
 
     create() {
         this.setScale(2);
+        this.setBodySize(11, 10, true);
         this.fired ? this.shoot() : this.collided();
         this.speed < 0 ? this.setFlipY(false) : this.setFlipY(true);
         this.anims.play( this.texture );
