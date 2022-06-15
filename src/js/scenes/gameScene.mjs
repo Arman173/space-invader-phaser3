@@ -8,7 +8,13 @@ import { Projectile } from '../gameObjects/projectile.mjs';
 let background, cursors, song;
 let player, score, lifes;
 let bullets = [], delay = 0;
-let aliens = [], alienSpeed, alienDistance = 0, alienDir = 1;
+
+// alien variables
+let aliens = [], aliensAlive = [];
+let alienSpeed;
+let alienDistance = 0; // alien distance per second
+let alienDir = 1; // alien direction ( -1 left, 1 right )
+let alienBullet;
 
 /* GAME SCENE CLASS */
 export class GameScene extends Phaser.Scene
@@ -52,6 +58,13 @@ export class GameScene extends Phaser.Scene
         this.load.spritesheet(
             'charged_beam',
             '/src/assets/sprites/projectiles/player-charged-beam.png',
+            {
+                frameWidth: 16, frameHeight: 16
+            }
+        );
+        this.load.spritesheet(
+            'enemy_projectile',
+            '/src/assets/sprites/projectiles/enemy-projectile.png',
             {
                 frameWidth: 16, frameHeight: 16
             }
@@ -100,6 +113,14 @@ export class GameScene extends Phaser.Scene
             repeat: -1,
             frameRate: 10
         });
+        this.anims.create({
+            key: 'enemy_projectile',
+            frames: this.anims.generateFrameNumbers('enemy_projectile', {
+                start: 0, end: 3
+            }),
+            repeat: -1,
+            frameRate: 10
+        });
 
         /* GAME OBJECTS */
         // input
@@ -139,10 +160,11 @@ export class GameScene extends Phaser.Scene
         // bullets
         bullets = this.physics.add.group();
         for (let i = 1; i <= 1; i++) {
-            bullets.add(new Projectile(this, 50 * i + 50, 480, 'charged_beam', -250));
+            bullets.add(new Projectile(this, 50 * i + 50, 480, 'charged_beam', -200));
         }
+        alienBullet = new Projectile(this, 400, 100, 'enemy_projectile', 150);
     
-        song = this.sound.add('arrival');
+        song = this.sound.add('arrival', { volume: 0.3 });
         song.play();
 
         /* COLLIDERS */
@@ -220,8 +242,15 @@ export class GameScene extends Phaser.Scene
         if ( alien.state === 'dead' || !bullet.fired ) return;
             bullet.collided();
             alien.collided();
+            // increase alien speed
             alienDistance += 1.5;
             alienSpeed = Phaser.Math.GetSpeed(alienDistance, 1);
+            // generate aliens alive array
+            aliensAlive = aliens.getChildren().filter(alien => alien.state === 'alive');
             console.log('hit!');
+    }
+
+    alienAttack() {
+        const randIndex = Phaser.Math.Between(0, aliensAlive.length - 1);
     }
 }
